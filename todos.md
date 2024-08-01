@@ -1,0 +1,3 @@
+- [] setup Giscus for commenting
+- [] update the favicon image
+- [] update the blog posts data
