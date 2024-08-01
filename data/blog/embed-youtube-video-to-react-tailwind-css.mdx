@@ -1,0 +1,96 @@
+---
+title: 'How to embed a responsive YouTube video in React with Tailwind CSS'
+date: '2023-09-12'
+tags: ['react', 'tailwindcss', 'youtube', 'responsive design']
+draft: false
+summary: A guide on embedding a responsive YouTube video in a React application using Tailwind CSS
+---
+
+# How to embed a responsive YouTube video in React with Tailwind CSS
+
+In this tutorial, we'll walk you through the process of embedding a responsive YouTube video into a React application while using the popular CSS framework, Tailwind CSS. By the end of this guide, you'll have a sleek and responsive YouTube video player integrated into your React project.
+
+## In Short:
+
+Here is a component that contains a responsive YouTube video by using the style from tailwind `aspect-video`
+
+```jsx
+<div className='aspect-video'>
+    <iframe 
+        className='h-full w-full rounded-lg'
+        src="https://www.youtube.com/embed/4WiH9pf2ULQ?si=2TzjHgKzRDOgi528" 
+        width="100%" 
+        title="YouTube video player" 
+        frameborder="0" 
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen> 
+    </iframe>
+</div>
+
+_**Preview**_
+
+## Setup React & Tailwind CSS
+
+The following steps are for setting up a react project with tailwind CSS:
+
+### Step 1: Create a React Project
+
+If you don't have a React project set up, you can create one using `create-react-app:`
+
+```bash
+npx create-react-app youtube-video-embed
+cd youtube-video-embed
+npm start
+```
+
+### Setup 2: Install Tailwind CSS
+To use Tailwind CSS in your React project, install it by running the following command:
+```bash
+npm install tailwindcss
+```
+
+Once it's installed, you'll need to create a configuration file:
+
+```bash
+npx tailwindcss init
+```
+
+### Step 3: Configure Tailwind CSS
+Open the `tailwind.config.js` file generated in your project root and update it to include the following:
+
+```javascript
+module.exports = {
+  purge: [],
+  darkMode: false,
+  theme: {
+    extend: {},
+  },
+  variants: {},
+  plugins: [],
+}
+```
+
+### Step 4: Embed the youtube video
+
+In your React Project, create a new component that will display the YouTube video. For example, `YouTubeEmbed.js`:
+```jsx
+import React from 'react';
+
+const YouTubeEmbed = ({ embedId }) => {
+  return (
+    <div className="aspect-w-16 aspect-h-9">
+      <iframe
+        className="w-full h-full"
+        src={`https://www.youtube.com/embed/${embedId}`}
+        title="YouTube video player"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen
+      ></iframe>
+    </div>
+  );
+};
+
+export default YouTubeEmbed;
+```
+
+Congratulations! You've successfully embedded a responsive YouTube video into your React application using Tailwind CSS. You can further customize the appearance and styling of the video player by modifying the Tailwind CSS classes in the YouTubeEmbed component to match your project's design.

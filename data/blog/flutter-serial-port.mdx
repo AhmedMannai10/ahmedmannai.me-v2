@@ -1,0 +1,87 @@
+---
+title: Communicating with a Serial Port using flutter_libserialport
+date: '2024-01-01'
+tags: ['flutter', 'serialport', 'tutorial']
+draft: false
+summary: Learn how to send and receive data through a serial port using Flutter with the flutter_libserialport package.
+---
+
+Hello everyone! Don't you just hate when documentation is scarce and tutorial blog posts are almost non-existent for something you're working on? I've been there. I was working on a Flutter app pertinent to serial port communication and faced the same issue. But now that I've figured it out, you don't have to feel the frustration that comes with the lack of guidance.
+
+By the end of this blog post, you'll learn how to send and receive data through a serial port using Flutter. Let's dive in!
+
+![](https://cdn.videotap.com/5ysTxbIRlpc1kJ2Q7IAe-30.06.png)## Getting Started
+
+To start with, we need to add the package named `flutter_lib_serial_port` to our empty Flutter project. We will then import the `lib_serial_port` package that we just downloaded.
+
+Here's a bit of code to assist you:
+
+```dart
+import 'lib_serial_port.dart';
+```
+
+## Identifying Available Ports
+
+Once the package is successfully imported, the first thing we need to do is to identify the available ports connected to our PC.
+
+To do that, we will declare a list of strings that will receive the names of the available ports.
+
+```dart
+List<String> availablePorts;availablePorts = SerialPort.availablePorts;print (availablePorts);
+```
+
+On running this code, you should see a list of the available ports. In my case, there were only three ports, labelled as serial port.
+
+## Creating a Serial Port Object
+
+Now we'll need to create a serial port object, let's call it `portOne`. This object requires the name of the port we got from our list of available ports.
+
+```dart
+SerialPort portOne = SerialPort('serial_port_three');
+```
+
+![](https://cdn.videotap.com/BHeVRFY8XwelsfAUL1uq-210.39.png)The above code will create an object referenced to 'serial\_port\_three'
+
+After creating the object, it's best to use a try-catch block to handle any serial port errors. If an error occurs while reading or writing to/from the port, we simply print it to the console.
+
+## Opening the Port for Communication
+
+Now we can open the port for communication. The `openReadWrite` method enables opening the port for both reading and writing.
+
+Let's implement that in our code:
+
+```dart
+portOne.openReadWrite();
+```
+
+## Writing to the Port
+
+After successfully opening the port, we can write to it. We have a problem though; the `write` method takes a `Uint8List` but what we have is a string.
+
+To make the conversion, a method needs to be created that converts a string to `unit8List`. The return type of the write method will be the bytes written. Let's print these bytes written to check if the data was written successfully.
+
+Here is how to do it:
+
+```dart
+String str = 'Hello';Uint8List uint8list = Uint8List.fromList(str.codeUnits);print (portOne.write(uint8list));
+```
+
+![](https://cdn.videotap.com/cEMETTpr1AWh4At8Jy3z-370.69.png)On executing this code, a number (5) will be printed, which corresponds to the length of the string 'Hello', indicating the successful write operation.
+
+## Reading from the Port
+
+Now let's implement the functionality to read from the serial port. To achieve this goal, we need to create a serial port reader object.
+
+This object provides us with a stream, which we can listen to, and then print the incoming data. The problem here is that the stream returns `unit8List` data, thereby necessitating the conversion back to a string.
+
+Here is the code snippet to do this:
+
+```dart
+SerialPortReader reader = SerialPortReader(portOne);reader.stream.listen((data) {print(String.fromCharCodes(data));});
+```
+
+![](https://cdn.videotap.com/bdTTxSIE1gOalSQIvLg4-480.89.png)If you've followed along correctly and everything goes without a hitch, you should be able to read data from the serial port successfully!
+
+> "*Don't be discouraged by what you don't know. That can be your greatest strength and ensure that you do things differently from everyone else.*" - Sara Blakely
+
+I hope you've found this tutorial useful. Remember, in technology, the best way to learn something new is by doing. Happy coding, and until next time, take care!
