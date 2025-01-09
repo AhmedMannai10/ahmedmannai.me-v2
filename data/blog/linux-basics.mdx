@@ -1,0 +1,274 @@
+---
+title: 'Exploring Linux Commands and Concepts'
+date: '2025-01-09'
+tags: ['linux', 'bash']
+draft: false
+summary: 'A guide to understanding and mastering basic Linux commands and concepts.'
+---
+
+# Working With Shell
+
+## Basic Commands
+
+### General
+
+- **echo “hello”**: Prints "hello" to the terminal.
+- **uptime**: Displays the time since the last reboot.
+- **/ (root dir)**: Root directory.
+- **\~ (user dir)**: User's home directory.
+
+### Directory Navigation and Management
+
+- **popd**: Pops the last pushed directory off the stack and navigates to it.
+- **cp -r**: Recursively copies directories and their contents. Example: `cp -r Europe/UK Europe/UnitedKingdom`.
+
+### Viewing Files
+
+- **more new_file.txt**:
+  - `[space]`: Scrolls one screenful at a time.
+  - `[enter]`: Scrolls one line at a time.
+  - `[b]`: Scrolls backward.
+  - `[/text]`: Searches for "text".
+  - `[q]`: Exits.
+
+### Listing Files and Directories
+
+- **ls**: Lists files and directories.
+  - **ls -l**: Detailed listing (access mode, ownership, timestamps).
+  - **ls -a**: Includes hidden files (preceded by `.`).
+  - **ls -t**: Sorts by creation/modification time.
+  - **ls -tr**: Reverse order of `ls -t`.
+
+### Help Commands
+
+- **whatis echo**: Brief description of the command.
+- **man touch**: Displays the manual for `touch`.
+- **h** or **-help**: Displays help for most commands.
+- **apropos [keyword]**: Searches the manual pages for the keyword.
+
+### Examples:
+
+```bash
+➜  linux-training apropos modpr
+modprobe (8)         - Add and remove modules from the Linux Kernel
+modprobe.d (5)       - Configuration directory for modprobe
+```
+
+---
+
+## Bash Shell
+
+- **Check Shell**: `echo $SHELL`.
+- **Alias**: Create shortcuts for commands. Example: `alias dt=date`.
+- **History**: `history` lists previously run commands.
+
+---
+
+# Linux Core Concepts
+
+## Introduction to the Linux Kernel
+
+### What is the Kernel?
+
+The kernel is the core component of the operating system that interfaces between hardware and processes. It is responsible for:
+
+1. **Memory Management**.
+2. **Process Management**.
+3. **Device Drivers**.
+4. **System Calls and Security**.
+
+### Key Features:
+
+- **Monolithic and Modular**: Combines all core functionalities while allowing extensions via modules.
+
+### Checking Kernel Version:
+
+- Command: `uname`
+
+Example:
+
+```bash
+➜  ~ uname
+Linux
+➜  ~ uname -r
+5.15.146.1-generic
+```
+
+- **5**: Kernel version.
+- **15**: Major version.
+- **146**: Minor version.
+- **1**: Patch release.
+- **Generic**: Distribution-specific info.
+
+### Kernel Source:
+
+- [Kernel.org](https://kernel.org/): Open-source repository for all kernel versions.
+
+---
+
+## Kernel Space and User Space
+
+Memory is divided into two regions:
+
+- **Kernel Space**:
+  - Runs kernel code, extensions, and device drivers.
+- **User Space**:
+  - Runs user applications written in languages like C, Java, Python, etc.
+
+### Example Workflow:
+
+- **USB Driver** interacts with kernel space (device driver) and user space via `/dev/sdb1`.
+
+---
+
+## Working with Hardware
+
+### Commands:
+
+- **dmesg**: Displays kernel messages (ring buffer).
+
+  - Filter logs with `grep`:
+    ```bash
+    $ dmesg | grep -i usb
+    ```
+
+- **udevadm monitor**: Monitors details about newly attached or removed devices.
+
+- **lspci**: Lists PCI devices (e.g., Ethernet cards, video cards).
+
+- **lsblk**: Lists block devices.
+
+  - **Types**:
+    - `disk`: Whole physical disk.
+    - `partition`: Partitioned disk space.
+
+  Example Output:
+
+  ```bash
+  NAME    MAJ:MIN RM   SIZE RO TYPE MOUNTPOINT
+  sda       8:0    0   100G  0 disk
+  sda1      8:1    0    50G  0 part /
+  sda2      8:2    0    50G  0 part /home
+  ```
+
+- **lscpu**: Displays CPU architecture information.
+
+  **Types of CPU**:
+
+  1. **64 Bits**: Address & store 2^64 / 18EB maximum memory.
+  2. **32 Bits**: Address & store 2^32 / 4GB maximum memory.
+
+  **Register**: A location in the CPU rapidly accessed to load data from memory and perform arithmetic operations.
+
+- **lsmem --summary**: Summarizes memory information.
+
+- **free -m**: Shows total and used memory.
+
+- **lshw**: Provides detailed hardware information.
+
+---
+
+## Linux Boot Sequence
+
+### Overview:
+
+1. BIOS/UEFI Initialization.
+2. Bootloader Execution (e.g., GRUB).
+3. Kernel Loading.
+4. Init System Execution (e.g., systemd).
+5. User Space Initialization.
+
+---
+
+## System Targets (Runlevels)
+
+### Runlevels:
+
+- **0**: Halt.
+- **1**: Single-user mode.
+- **3**: Multi-user mode with networking.
+- **5**: Multi-user mode with GUI.
+- **6**: Reboot.
+
+The term "runlevels" is used in **SysV init** systems. These have been replaced by **systemd targets** in modern systems.
+
+**Mapping of Runlevels to Targets:**
+
+- **runlevel 0** -> `poweroff.target`
+- **runlevel 1** -> `rescue.target`
+- **runlevel 2** -> `multi-user.target`
+- **runlevel 3** -> `multi-user.target`
+- **runlevel 5** -> `graphical.target`
+- **runlevel 6** -> `reboot.target`
+
+---
+
+## Filesystems and Hierarchy
+
+### File Types:
+
+Command: `file [filename]` – Displays the file type.
+
+### Key Directories:
+
+- **/**: Root directory.
+- **/home**: User home directories.
+- **/bin**: Essential binaries.
+- **/etc**: Configuration files.
+- **/var**: Logs and variable data.
+
+### Commands:
+
+- **df -h**: Disk space usage.
+- **du -sh [dir]**: Directory size.
+
+---
+
+# Package Management
+
+## Introduction to Package Management
+
+### What is a Software Package?
+
+A software package is a compressed archive containing files required by software to run, including binaries, metadata, and configuration files.
+
+### Package Manager Functions:
+
+1. Package integrity and authenticity.
+2. Simplified package management.
+3. Dependency resolution.
+4. Grouping by functionality.
+
+### Types of Package Managers:
+
+- **RPM-based**: rpm, yum, dnf.
+- **Debian-based**: dpkg, apt, apt-get.
+
+---
+
+## RPM and YUM
+
+### RPM
+
+Low-level package manager used for installing, uninstalling, upgrading, querying, and verifying packages.
+
+Examples:
+
+```bash
+rpm -ivh telnet.rpm   # Install
+rpm -e telnet.rpm     # Uninstall
+rpm -Uvh telnet.rpm   # Upgrade
+rpm -q telnet.rpm     # Query
+rpm -v <path>         # Verify
+```
+
+### YUM
+
+High-level package manager for RPM-based systems with automatic dependency resolution.
+
+Commands:
+
+```bash
+yum repolist         # Show repositories
+yum provides scp     # Find the package providing 'scp'
+```
