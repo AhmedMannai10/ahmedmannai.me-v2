@@ -3,10 +3,10 @@ const siteMetadata = {
   title: 'Ahmed Mannai',
   author: 'Ahmed Mannai',
   headerTitle: 'Ahmed Mannai',
-  description: 'Software Engineer, Developer, Writer, Footballer',
+  description: 'Software & Devops Engineer, Writer, Footballer',
   language: 'en-us',
   theme: 'system', // system, dark or light
-  siteUrl: 'https://ahmedmannai.me',
+  siteUrl: 'https://ahmedmannai.vercel.app',
   //siteRepo: 'https://github.com/timlrx/tailwind-nextjs-starter-blog',
   siteLogo: `${process.env.BASE_PATH || ''}/static/images/logo.png`,
   socialBanner: `${process.env.BASE_PATH || ''}/static/images/twitter-card.png`,
