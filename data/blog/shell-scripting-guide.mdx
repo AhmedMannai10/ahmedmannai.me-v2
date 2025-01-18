@@ -1,0 +1,164 @@
+---
+title: 'Shell Scripting Guide'
+date: '2025-01-18'
+tags: ['linux', 'shell', 'bash']
+draft: false
+summary: 'Learn the fundamentals of shell scripting in Linux through this comprehensive guide. From understanding the basic syntax and structure to writing efficient scripts, this article covers key concepts like variables, loops, conditionals, and functions. Practical examples and best practices are included, along with real-world applications to help you automate tasks and streamline your development workflow. Perfect for software engineers looking to deepen their understanding of Linux shell scripting.'
+images: ['/static/images/desk-setup-w-linux.jpg']
+---
+
+### Shell Scripting Guide
+
+#### **Introduction**
+
+Shell scripting is a powerful way to automate tasks, simplify complex workflows, and improve efficiency in daily operations. A shell script is a text file containing a sequence of commands that the shell interprets and executes. Shell scripting is essential in areas such as system administration, DevOps, and CI/CD pipelines, making it a valuable skill for engineers working with Linux systems. By learning shell scripting, engineers can automate repetitive tasks, manage system operations, and create robust workflows with minimal manual intervention.
+
+---
+
+#### **Key Concepts in Shell Scripting**
+
+1. **Shebang (**``**)**: The shebang is the first line of a shell script and specifies the interpreter to be used for executing the script. For example:
+
+   ```bash
+   #!/bin/bash
+   ```
+
+   This tells the system to use the Bash shell to run the script.
+
+2. **Variables**: Variables store data that can be used and manipulated within a script.
+
+   ```bash
+   # Defining variables
+   name="John Doe"
+   echo "Hello, $name"
+   ```
+
+3. **Conditionals**: Shell scripts can use `if`, `elif`, `else`, and `case` statements to make decisions.
+
+   ```bash
+   if [ $1 -gt 10 ]; then
+       echo "The number is greater than 10."
+   else
+       echo "The number is 10 or less."
+   fi
+   ```
+
+4. **Loops**: Loops allow repetitive execution of commands.
+
+   - **For loop**:
+     ```bash
+     for file in *.txt; do
+         echo "Processing $file"
+     done
+     ```
+   - **While loop**:
+     ```bash
+     count=1
+     while [ $count -le 5 ]; do
+         echo "Count: $count"
+         count=$((count + 1))
+     done
+     ```
+
+5. **Functions**: Functions enable code reuse and better organization.
+
+   ```bash
+   greet() {
+       echo "Hello, $1!"
+   }
+   greet "Alice"
+   ```
+
+---
+
+#### **Examples of Common Use Cases**
+
+1. **Automating Backups**: Automate file backups using `tar`:
+
+   ```bash
+   #!/bin/bash
+   source_dir="/path/to/source"
+   backup_dir="/path/to/backup"
+   tar -czf "$backup_dir/backup_$(date +%Y%m%d).tar.gz" $source_dir
+   echo "Backup completed."
+   ```
+
+2. **Working with Files**: Renaming all `.txt` files to `.bak`:
+
+   ```bash
+   for file in *.txt; do
+       mv "$file" "${file%.txt}.bak"
+   done
+   ```
+
+3. **Parsing Data**: Extract specific lines from a log file:
+
+   ```bash
+   grep "ERROR" /var/log/syslog > error_logs.txt
+   ```
+
+---
+
+#### **Tips and Best Practices**
+
+- **Use Descriptive Variable Names**: This improves script readability and maintainability.
+  ```bash
+  user_name="Alice"
+  ```
+- **Add Comments**: Document the purpose of commands for clarity.
+  ```bash
+  # This loop processes all .txt files
+  ```
+- **Error Handling**: Check for potential errors and handle them gracefully.
+  ```bash
+  if [ ! -d "$backup_dir" ]; then
+      echo "Backup directory does not exist."
+      exit 1
+  fi
+  ```
+- **Test Incrementally**: Test your scripts in parts before running them fully.
+- **Use ShellCheck**: A linting tool that checks for errors and potential issues in shell scripts.
+
+---
+
+#### **Real-World Applications**
+
+1. **DevOps**: Automate deployment pipelines and infrastructure provisioning. Example: Starting or stopping Docker containers based on conditions.
+
+   ```bash
+   if docker ps | grep -q my_app; then
+       docker stop my_app
+   else
+       docker start my_app
+   fi
+   ```
+
+2. **System Administration**: Monitor disk usage and send alerts.
+
+   ```bash
+   usage=$(df / | grep / | awk '{print $5}' | sed 's/%//')
+   if [ $usage -gt 80 ]; then
+       echo "Disk usage is critically high: $usage%"
+   fi
+   ```
+
+3. **CI/CD Pipelines**: Automate build and test scripts.
+
+   ```bash
+   #!/bin/bash
+   echo "Running tests..."
+   ./run_tests.sh && echo "All tests passed!" || echo "Tests failed."
+   ```
+
+---
+
+#### **Key Takeaways**
+
+- Shell scripting is a versatile tool for automation and efficiency.
+- Key elements include variables, conditionals, loops, and functions.
+- Use best practices to write readable, maintainable, and error-free scripts.
+- Practical applications span across DevOps, system administration, and software development pipelines.
+
+---
+
+Mastering shell scripting will empower you to streamline your tasks, enhance productivity, and become a more proficient engineer. Dive into hands-on projects to solidify your understanding and keep exploring the endless possibilities with shell scripts.
